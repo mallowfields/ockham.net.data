@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ockham.Data", "src\Ockham.Data.csproj", "{780A4E55-38D2-4A04-9451-F53ABDE667D2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ockham.Data.Tests", "test\Ockham.Data.Tests.csproj", "{96086F1A-93FA-428F-A54E-0385A9D478F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{780A4E55-38D2-4A04-9451-F53ABDE667D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{780A4E55-38D2-4A04-9451-F53ABDE667D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{780A4E55-38D2-4A04-9451-F53ABDE667D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{780A4E55-38D2-4A04-9451-F53ABDE667D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96086F1A-93FA-428F-A54E-0385A9D478F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96086F1A-93FA-428F-A54E-0385A9D478F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96086F1A-93FA-428F-A54E-0385A9D478F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96086F1A-93FA-428F-A54E-0385A9D478F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A926886-7DE3-4B5B-8076-57D72A8836BD}
+	EndGlobalSection
+EndGlobal
