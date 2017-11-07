@@ -68,7 +68,7 @@ namespace Ockham.Data
                 // Treat decimal string as seconds, not ticks
                 return TimeSpan.FromSeconds(To<double>(value));
             }
-            else if (TypeUtil.IsNumeric(value) || (value != null && TypeUtil.IsNumberType(value.GetType())))
+            else if (Value.IsNumeric(value) || (value != null && TypeUtil.IsNumberType(value.GetType())))
             {
                 return TimeSpan.FromTicks(To<long>(value));
             }
