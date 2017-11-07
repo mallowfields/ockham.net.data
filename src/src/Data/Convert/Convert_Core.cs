@@ -1,18 +1,17 @@
 ﻿using Ockham.Reflection;
 using System;
-using System.Text.RegularExpressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using VBConvert = Microsoft.VisualBasic.CompilerServices.Conversions;
 
 namespace Ockham.Data
 {
 
     // The core implementation of converting an input value to a target type. All public type
-    // conversion overloads on Ockham.Convert should internally call the _To method 
-    [Microsoft.VisualBasic.CompilerServices.StandardModule] // Mark as a VB module so methods can be called without the class name from VB
+    // conversion overloads on Ockham.Convert should internally call the _To method  
     public static partial class Convert
     {
-        private static object _To(object value, Type targetType, ConvertOptions options, bool ignoreError, object defaultValue)
+        internal static object To(object value, Type targetType, ConvertOptions options, bool ignoreError, object defaultValue)
         {
             var typeInfo = targetType.GetTypeInfo();
 
@@ -32,7 +31,7 @@ namespace Ockham.Data
                 // ---------------------------------------------------------------------------
                 if (TypeUtil.IsNullableOfT(targetType))
                 {
-                    if (_IsEmpty(value, options))
+                    if (Value.IsNull(value, options))
                     {
                         // Nullable<T> of T is technically a struct, so IsValueType is true. However,
                         // semantics and implementation allow it to be treated as a reference type,
@@ -45,7 +44,7 @@ namespace Ockham.Data
                         try
                         {
                             // Note: DON'T ignore error on underlying conversion type
-                            return _To(value, Nullable.GetUnderlyingType(targetType), options, false, null);
+                            return To(value, Nullable.GetUnderlyingType(targetType), options, false, null);
                         }
                         catch
                         {
@@ -56,7 +55,7 @@ namespace Ockham.Data
                 } // end IsNullable<T>
 
                 // If input is empty, we can immediately return default or throw an exception
-                if (_IsEmpty(value, options))
+                if (Value.IsNull(value, options))
                 {
                     if (options.HasFlag(ConvertOptions.NullToValueDefault))
                     {
@@ -80,13 +79,13 @@ namespace Ockham.Data
                     {
                         // Test IsNumeric BEFORE testing string so that numeric strings are
                         // treated as numbers, not as enum member names
-                        if (TypeUtil.IsNumeric(value, options))
+                        if (Value.IsNumeric(value, options))
                         {
                             // If the input is a number or *numeric string*, first convert the 
                             // input to an enum number value, then cast it using Enum.ToObject
 
                             // Note: DON'T ignore error on underlying conversion type
-                            var rawValue = _To(value, Enum.GetUnderlyingType(targetType), options, false, null);
+                            var rawValue = To(value, Enum.GetUnderlyingType(targetType), options, false, null);
                             return Enum.ToObject(targetType, rawValue);
                         }
                         else if (value is string)
@@ -102,7 +101,7 @@ namespace Ockham.Data
                             // Information.IsNumeric returned false
 
                             // Note: DON'T ignore error on underlying conversion type
-                            var rawValue = _To(value, Enum.GetUnderlyingType(targetType), options, false, null);
+                            var rawValue = To(value, Enum.GetUnderlyingType(targetType), options, false, null);
                             return Enum.ToObject(targetType, rawValue);
                         }
                     } // end IsEnum
@@ -129,8 +128,7 @@ namespace Ockham.Data
                     // ---------------------------------------------------------------------------
                     //  Invoke IConvertible implementation, if any
                     // ---------------------------------------------------------------------------
-                    IConvertible iConvertible = value as IConvertible;
-                    if (iConvertible != null)
+                    if (value is IConvertible iConvertible)
                     {
                         // Use the System.ChangeType method, which makes full use of any IConvertible implementation on the target type
                         try
@@ -198,7 +196,7 @@ namespace Ockham.Data
             {
                 // Reference types...not much to do here besides check for empty values
 
-                if (_IsEmpty(value, options))
+                if (Value.IsNull(value, options))
                 {
                     return null;
                 }
@@ -216,7 +214,7 @@ namespace Ockham.Data
             }
         }
 
-        private static System.Collections.Generic.Dictionary<TypeCode, string> _typeAlises = new System.Collections.Generic.Dictionary<TypeCode, string>()
+        private static System.Collections.Generic.Dictionary<TypeCode, string> _typeAliases = new System.Collections.Generic.Dictionary<TypeCode, string>()
         {
             { TypeCode.Boolean, "boolean" },
             { TypeCode.Byte, "byte" },
@@ -232,7 +230,8 @@ namespace Ockham.Data
             { TypeCode.UInt32, "uint" },
             { TypeCode.UInt64, "ulong" }
         };
-
+        
+        // This is just used internally to generate exception messages
         private static string _FormatValue(object value)
         {
             if (value == null) return "null";
@@ -244,7 +243,7 @@ namespace Ockham.Data
             if (valueTypeInfo.IsEnum) return "enum value '" + value.ToString() + "' of type " + valueType.FullName;
 
             TypeCode typeCode = System.Convert.GetTypeCode(value);
-            if (_typeAlises.ContainsKey(typeCode)) return _typeAlises[typeCode] + " value " + value.ToString();
+            if (_typeAliases.ContainsKey(typeCode)) return _typeAliases[typeCode] + " value " + value.ToString();
 
             return valueType.FullName + "value";
         }

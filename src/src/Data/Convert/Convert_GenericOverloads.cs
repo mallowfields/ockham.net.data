@@ -5,7 +5,7 @@ namespace Ockham.Data
     // This partial class contains all the public wrappers for the general To and Force overloads
 
     /// <summary>
-    /// Flexible data conversion methods for 
+    /// Flexible data conversion methods for converting between simple types
     /// </summary>
     public static partial class Convert
     {
@@ -35,7 +35,7 @@ namespace Ockham.Data
         /// </example>
         public static object Force(object value, Type targetType)
         {
-            return _To(value, targetType, ConvertOptions.Relaxed, true, null);
+            return To(value, targetType, ConvertOptions.Relaxed, true, null);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Ockham.Data
         /// </example>
         public static T Force<T>(object value)
         {
-            return (T)(_To(value, typeof(T), ConvertOptions.Relaxed, true, null));
+            return (T)(To(value, typeof(T), ConvertOptions.Relaxed, true, null));
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Ockham.Data
         /// </example>
         public static T Force<T>(object value, T defaultValue)
         {
-            return (T)(_To(value, typeof(T), ConvertOptions.Relaxed, true, defaultValue));
+            return (T)(To(value, typeof(T), ConvertOptions.Relaxed, true, defaultValue));
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Ockham.Data
         /// <remarks>If the target type is not known at compile-time, use the non-generic overload of Convert.To (<see cref="Convert.To(Object, Type)"/>)</remarks>
         public static T To<T>(object value)
         {
-            return (T)(_To(value, typeof(T), ConvertOptions.Default, false, null));
+            return (T)(To(value, typeof(T), ConvertOptions.Default, false, null));
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Ockham.Data
         /// <remarks>If the target type is not known at compile-time, use the non-generic overload of Convert.To (<see cref="Convert.To(object, Type, ConvertOptions)"/>)</remarks> 
         public static T To<T>(object value, ConvertOptions options)
         {
-            return (T)(_To(value, typeof(T), options, false, null));
+            return (T)(To(value, typeof(T), options, false, null));
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Ockham.Data
         /// <remarks>If the target type is known at compile-time, use the generic overload of Convert.To (<see cref="Convert.To{T}(object)"/>)</remarks> 
         public static object To(object value, Type targetType)
         {
-            return _To(value, targetType, ConvertOptions.Default, false, null);
+            return To(value, targetType, ConvertOptions.Default, false, null);
         }
 
         /// <summary>
@@ -135,10 +135,10 @@ namespace Ockham.Data
         /// <param name="value">Any value</param>
         /// <param name="targetType">The Type to which the value should be converted</param>
         /// <param name="options">See <see cref="ConvertOptions"/></param>
-        /// <remarks>>If the target type is known at compile-time, use the generic overload of Convert.To (<see cref="Convert.To{T}(object, ConvertOptions)"/>)</remarks>
+        /// <remarks>If the target type is known at compile-time, use the generic overload of Convert.To (<see cref="Convert.To{T}(object, ConvertOptions)"/>)</remarks>
         public static object To(object value, Type targetType, ConvertOptions options)
         {
-            return _To(value, targetType, options, false, null);
+            return To(value, targetType, options, false, null);
         }
 
     }

@@ -7,7 +7,7 @@ namespace Ockham.Data
     // 
     //  Do not modify this file directly!
     //  
-    //  Update and rerun the code generating script Generate_Convert_Aliases_CSharp.ps1
+    //  Update and rerun the code generating script Generate_Convert_Aliases_CSharp.ps1 with $instance = $false
     // ------------------------------------------------------------------
 
     // Type-specific conversion wrappers for underlying To and Force methods.  

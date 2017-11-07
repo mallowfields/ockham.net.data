@@ -24,21 +24,6 @@ namespace Ockham.Data
         NullToValueDefault = 0x2,
 
         /// <summary>
-        /// Alias for None
-        /// </summary>
-        Strict = 0,
-
-        /// <summary>
-        /// Alias for EmpyStringAsNull
-        /// </summary>
-        Default = 0x1,
-
-        /// <summary>
-        /// Alias for EmptyStringAsNull, NullToValueDefault
-        /// </summary>
-        Relaxed = 0x3,
-
-        /// <summary>
         /// Recognize valid VB-syntax hex strings (&amp;H[0-9A-F]+)
         /// </summary>
         AllowVBHex = 0x4,
@@ -51,6 +36,21 @@ namespace Ockham.Data
         /// <summary>
         /// Alias for AllowVBHex, Allow0xHex
         /// </summary>
-        AllowHex = 0xc 
+        AllowHex = 0xc,
+
+        /// <summary>
+        /// Alias for None
+        /// </summary>
+        Strict = 0,
+
+        /// <summary>
+        /// Alias for EmpyStringAsNull
+        /// </summary>
+        Default = 0x1,
+
+        /// <summary>
+        /// Alias for EmptyStringAsNull, NullToValueDefault
+        /// </summary>
+        Relaxed = 0x3
     }
 }

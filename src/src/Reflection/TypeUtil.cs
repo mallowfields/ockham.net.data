@@ -1,50 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Reflection;
-using Ockham.Data;
 
 namespace Ockham.Reflection
 {
     /// <summary>
-    /// Provides utility methods for inspecting types and values 
+    /// Static utility methods for inspecting types 
     /// </summary>
     public static class TypeUtil
     {
-        /// <summary>
-        /// Test if the input value is a non-null numeric type 
-        /// or a string that can be parsed as a number. Valid hexadecimal strings
-        /// are not treated as numbers.
-        /// </summary>
-        /// <remarks>To detect valid hexadecimal strings, use <see cref="IsNumeric(object, ConvertOptions)"/></remarks>
-        /// <param name="value"></param> 
-        public static bool IsNumeric(object value)
-        {
-            return IsNumeric(value, (ConvertOptions)0);
-        }
-
-        /// <summary>
-        /// Test if the input value is a non-null numeric type 
-        /// or a string that can be parsed as a number, with detection
-        /// of hex strings controlled by ConvertOptions flags
-        /// </summary>
-        /// <param name="value"></param> 
-        /// <param name="options"></param>  
-        public static bool IsNumeric(object value, ConvertOptions options)
-        {
-            if (value == null) return false;
-            if (value is string)
-            {
-                string sValue = (string)value;
-                double d; if (double.TryParse(sValue, out d)) return true;
-                if (options.HasFlag(ConvertOptions.AllowVBHex) && Regex.IsMatch(sValue, @"^\s*&[hH][0-9a-fA-F]+$")) return true;
-                if (options.HasFlag(ConvertOptions.Allow0xHex) && Regex.IsMatch(sValue, @"^\s*0[xX][0-9a-fA-F]+$")) return true;
-                return false;
-            }
-            return IsNumberType(value.GetType());
-        }
-
         /// <summary>
         /// Determine if a type is a static class (Module in VB.Net)
         /// </summary> 
@@ -63,7 +28,7 @@ namespace Ockham.Reflection
         }
 
         /// <summary>
-        /// Determine if the specified type is a numberic (integer, float, or decimal) type. Returns true for enums.
+        /// Determine if the specified type is a numeric (integer, float, or decimal) type. Returns true for enums.
         /// </summary> 
         public static bool IsNumberType(Type type)
         {
@@ -141,7 +106,25 @@ namespace Ockham.Reflection
         /// </remarks>
         public static bool IsEnumerable(Type type, ref Type elementType)
         {
-            //if (type == typeof(string)) return false;
+            return IsEnumerable(type, false, ref elementType);
+        }
+
+        /// <summary>
+        /// Determine if the specified type implements either <see cref="System.Collections.IEnumerable"/>
+        /// or <see cref="System.Collections.Generic.IEnumerable{T}"/>. 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="excludeString">Whether to exclude <see cref="string" /> </param>
+        /// <param name="elementType"></param>
+        /// <returns></returns>
+        /// <remarks> If the specified type implements <see cref="System.Collections.Generic.IEnumerable{T}"/>
+        /// then the element (T) type will be assigned to elementType. If the function returns true
+        /// but elementType is null, it means the type implements <see cref="System.Collections.IEnumerable"/>
+        /// but not <see cref="System.Collections.Generic.IEnumerable{T}"/>
+        /// </remarks>
+        public static bool IsEnumerable(Type type, bool excludeString, ref Type elementType)
+        {
+            if (excludeString && (type == typeof(string))) return false;
             Type[] typeParams = null;
             if (Implements(type, typeof(IEnumerable<>), ref typeParams))
             {
@@ -235,25 +218,6 @@ namespace Ockham.Reflection
         }
 
         /// <summary>
-        /// Determine if the value represents the default value (Nothing in Visual Basic) for the value's type. 
-        /// A value of null (Nothing in Visual Basic) will always return true.
-        /// </summary> 
-        public static bool IsDefault(object value)
-        {
-            if (value == null) return true;
-            Type type = value.GetType();
-            if (type.GetTypeInfo().IsValueType)
-            {
-                object defaultValue = Activator.CreateInstance(type);
-                return object.Equals(value, defaultValue);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Return the default value of any type. Equivalent to the C# generic keyword default(T)
         /// </summary> 
         public static object Default(Type type)
@@ -287,9 +251,6 @@ namespace Ockham.Reflection
             return type.IsInstanceOfType(value);
         }
 #endif
-
-
-
 
     }
 }

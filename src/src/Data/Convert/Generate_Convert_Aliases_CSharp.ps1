@@ -1,4 +1,9 @@
-﻿$typeNames = @(
+﻿# To generate aliased for Convert, use $instance = $false
+# To generate aliased methods for Converter, use $instance = $true
+$instance = $true
+$reference = $true
+
+$typeNames = @(
    $null ,
  # @( 'Int16'   , 'Short'    , 'Short'    , 'short'   , '16-bit signed integer', 'integer', '0' ),
    @( 'Int32'   , 'Int'      , 'Integer'  , 'int'     , '32-bit signed integer', 'integer', '0' ),
@@ -37,7 +42,8 @@ $typeNames | ft
 $converts  = New-Object 'System.Collections.Generic.List[String]'
 $force     = New-Object 'System.Collections.Generic.List[String]'
 $forceDflt = New-Object 'System.Collections.Generic.List[String]'
-
+$classBaseName = $(if($instance) { 'Ockham.Data.Converter' } else { 'Ockham.Data.Convert' })
+$modifier   = $(if($instance) { '' } else { 'static ' })
 
 $typeNames | %{ 
 
@@ -48,22 +54,38 @@ $shortName = $_.ShortName
 $dflt = $_.Default
 
 
-$converts.Add(@"
+if($reference) {
+    $converts.Add(@"
+    public $($modifier)$csName To$($name)(object value) => throw null;    
+"@)
+
+    if(!$instance) {
+        $force.Add(@"
+    public static $csName Force$($name)(object value) => throw null;        
+"@)
+
+        $forceDflt.Add(@" 
+    public static $csName Force$($name)(object value, $csName defaultValue) => throw null;        
+"@)
+    }
+} else {
+
+    $converts.Add(@"
     /// <summary>
     /// Convert any input value to an equivalent $desc value. Attempting to convert
     /// a value that has no meaningful $shortName equivalent, including an empty value,
     /// will cause an <see cref="System.InvalidCastException" /> to be raised.
     /// </summary>
     /// <param name="value">Any value</param>
-    /// <seealso cref="Ockham.Data.Convert.To{T}(Object)"/>
-    public static $csName To$($name)(object value) {
+    /// <seealso cref="$classBaseName.To{T}(Object)"/>
+    public $($modifier)$csName To$($name)(object value) {
         return To<$csName>(value);
     } 
-
-
+    
 "@)
 
-$force.Add(@"
+    if(!$instance) {
+        $force.Add(@"
     /// <summary>
     /// Convert any input value to an equivalent $desc value. If the input is empty
     /// or has no meaningful $shortName equivalent, $dflt is returned.
@@ -73,11 +95,10 @@ $force.Add(@"
     public static $csName Force$($name)(object value) {
         return Force<$csName>(value);
     } 
-
-
+    
 "@)
 
-$forceDflt.Add(@"
+        $forceDflt.Add(@"
     /// <summary>
     /// Convert any input value to an equivalent $desc value. If the input is empty
     /// or has no meaningful $shortName equivalent the provided default value is returned. 
@@ -88,11 +109,11 @@ $forceDflt.Add(@"
     public static $csName Force$($name)(object value, $csName defaultValue) {
         return Force<$csName>(value, defaultValue);
     }  
-
-
+    
 "@)
- 
-}  
+    } # if(!$instance)
+} # if($reference)
+} # %
 
 [string[]] $vals = @() + $converts + $force + $forceDflt
 

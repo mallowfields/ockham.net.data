@@ -35,7 +35,7 @@ namespace Ockham.Data.Tests
         }
 
         private static Func<object, Type, ConvertOptions, bool, object, object> fnTo =
-            Ockham.Test.MethodReflection.GetMethodCaller<Func<object, Type, ConvertOptions, bool, object, object>>(typeof(OData.Convert), "_To");
+            Ockham.Test.MethodReflection.GetMethodCaller<Func<object, Type, ConvertOptions, bool, object, object>>(typeof(OData.Convert), "To");
 
         /// <summary>
         /// Generate a list of all 12 permutations of convert options, ignore error, and default value
@@ -63,7 +63,7 @@ namespace Ockham.Data.Tests
         }
 
 
-        [Fact(DisplayName = "Convert._To:ImmediateReturnNullForNullReference")]
+        [Fact(DisplayName = "Convert.To:ImmediateReturnNullForNullReference")]
         public void ImmediateReturnNullForNullReference()
         {
             Type ltRefType = typeof(object);
@@ -73,7 +73,7 @@ namespace Ockham.Data.Tests
             }
         }
 
-        [Fact(DisplayName = "Convert._To:ImmediateReturnTargetRefernceType")]
+        [Fact(DisplayName = "Convert.To:ImmediateReturnTargetRefernceType")]
         public void ImmediateReturnTargetRefernceType()
         {
             string lSourceValue = "foo bar baz";
@@ -84,7 +84,7 @@ namespace Ockham.Data.Tests
             }
         }
 
-        [Fact(DisplayName = "Convert._To:ImmediateReturnTargetValueType")]
+        [Fact(DisplayName = "Convert.To:ImmediateReturnTargetValueType")]
         public void ImmediateReturnTargetValueType()
         {
             int lIntValue = 42;
@@ -95,7 +95,7 @@ namespace Ockham.Data.Tests
             }
         }
 
-        [Fact(DisplayName = "Convert._To:Empty input for nullable returns null")]
+        [Fact(DisplayName = "Convert.To:Empty input for nullable returns null")]
         public void EmptyInputForNullableReturnsNull()
         {
             Type lNullableType = typeof(int?);
@@ -106,7 +106,7 @@ namespace Ockham.Data.Tests
             }
         }
 
-        [Fact(DisplayName = "Convert._To:Non-empty input for nullable returns underlying value (int)")]
+        [Fact(DisplayName = "Convert.To:Non-empty input for nullable returns underlying value (int)")]
         public void NonEmptyInputForNullableReturnsUnderlyingValue_Int()
         {
             Type lNullableType = typeof(int?);
@@ -122,7 +122,7 @@ namespace Ockham.Data.Tests
             }
         }
 
-        [Fact(DisplayName = "Convert._To:Non-empty input for nullable returns underlying value (enum)")]
+        [Fact(DisplayName = "Convert.To:Non-empty input for nullable returns underlying value (enum)")]
         public void NonEmptyInputForNullableReturnsUnderlyingValue_Enum()
         {
             Type lNullableType = typeof(TestShortEnum?);
@@ -138,7 +138,7 @@ namespace Ockham.Data.Tests
             }
         }
 
-        [Fact(DisplayName = "Convert._To:NullToValueDefault")]
+        [Fact(DisplayName = "Convert.To:NullToValueDefault")]
         public void NullToValueDefault()
         {
             // Int, no explicit default
@@ -165,7 +165,7 @@ namespace Ockham.Data.Tests
 
         // Ensure the IgnoreError causes the default value to be returned on null input, even WITHOUT the ConvertOptions.NullToValueDefault flag
 
-        [Fact(DisplayName = "Convert._To:NullToValueDefault_IgnoreError")]
+        [Fact(DisplayName = "Convert.To:NullToValueDefault_IgnoreError")]
         public void NullToValueDefault_IgnoreError()
         {
 
@@ -191,7 +191,7 @@ namespace Ockham.Data.Tests
 
         }
 
-        [Fact(DisplayName = "Convert._To:NullToValueTypeRaisesError")]
+        [Fact(DisplayName = "Convert.To:NullToValueTypeRaisesError")]
         public void NullToValueTypeRaisesError()
         {
             Assert.Throws<ArgumentNullException>(() => fnTo(null, typeof(int), ConvertOptions.None, false, null));
@@ -203,7 +203,7 @@ namespace Ockham.Data.Tests
             Assert.Throws<ArgumentNullException>(() => fnTo(string.Empty, typeof(TestShortEnum), ConvertOptions.EmptyStringAsNull, false, null));
         }
 
-        [Fact(DisplayName = "Convert._To:IgnoreErrorsReturnsDefuault")]
+        [Fact(DisplayName = "Convert.To:IgnoreErrorsReturnsDefuault")]
         public void Invalid_IgnoreErrorsReturnsDefuault()
         {
             object lInput = new System.Random();
@@ -225,7 +225,7 @@ namespace Ockham.Data.Tests
             ConvertAssert.Equal(TestShortEnum.One, fnTo(lInput, typeof(TestShortEnum), ConvertOptions.None, true, TestShortEnum.One));
         }
 
-        [Fact(DisplayName = "Convert._To:HeedErrorsRaisesException")]
+        [Fact(DisplayName = "Convert.To:HeedErrorsRaisesException")]
         public void Invalid_HeedErrorsRaisesException()
         {
             object lInput = new System.Random();
