@@ -20,6 +20,7 @@ namespace Ockham.Data
         public static object DefaultToDBNull<T>(T value) where T : struct => throw null;
         public static object DefaultToDBNull<T>(T value, T defaultValue) where T : struct => throw null;
         public static object DefaultToDBNull<T>(T? value) where T : struct => throw null;
+        public static object DefaultToDBNull<T>(T? value, T defaultValue) where T : struct => throw null;
     }
 
     public static partial class Convert

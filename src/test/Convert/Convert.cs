@@ -7,78 +7,29 @@ using OAssert = Ockham.Test.Assert;
 using OData = Ockham.Data;
 
 namespace Ockham.Data.Tests
-{
+{ 
     public class ConvertCoreTests
-    {
-        private static class ConvertAssert
-        {
-            public static void Equal<T>(T expected, object actual)
-            {
-                if (!(actual is T)) throw new Xunit.Sdk.EqualException(expected, actual);
-                if (!typeof(T).GetTypeInfo().IsValueType && !!Object.ReferenceEquals(expected, actual)) throw new Xunit.Sdk.EqualException(expected, actual);
-                if (!Object.Equals(expected, actual)) throw new Xunit.Sdk.EqualException(expected, actual);
-            }
-        }
-
-        private class OptionsPermutation
-        {
-            public OptionsPermutation(ConvertOptions pOptions, bool pIgnoreError, object pDefaultValue)
-            {
-                this.ConvertOptions = pOptions;
-                this.IgnoreError = pIgnoreError;
-                this.DefaultValue = pDefaultValue;
-            }
-
-            public ConvertOptions ConvertOptions { get; set; }
-            public bool IgnoreError { get; set; }
-            public object DefaultValue { get; set; }
-        }
-
+    { 
         private static Func<object, Type, ConvertOptions, bool, object, object> fnTo =
             Ockham.Test.MethodReflection.GetMethodCaller<Func<object, Type, ConvertOptions, bool, object, object>>(typeof(OData.Convert), "To");
 
-        /// <summary>
-        /// Generate a list of all 12 permutations of convert options, ignore error, and default value
-        /// </summary> 
-        private List<OptionsPermutation> GetOptionsPermutations(object pDefaultValue)
-        {
-            return new List<OptionsPermutation>()
-            {
-                new OptionsPermutation(ConvertOptions.None, false, null),
-                new OptionsPermutation(ConvertOptions.EmptyStringAsNull, false, null),
-                new OptionsPermutation(ConvertOptions.NullToValueDefault, false, null),
-
-                new OptionsPermutation(ConvertOptions.None, true, null),
-                new OptionsPermutation(ConvertOptions.EmptyStringAsNull, true, null),
-                new OptionsPermutation(ConvertOptions.NullToValueDefault, true, null),
-
-                new OptionsPermutation(ConvertOptions.None, false, pDefaultValue),
-                new OptionsPermutation(ConvertOptions.EmptyStringAsNull, false, pDefaultValue),
-                new OptionsPermutation(ConvertOptions.NullToValueDefault, false, pDefaultValue),
-
-                new OptionsPermutation(ConvertOptions.None, true, pDefaultValue),
-                new OptionsPermutation(ConvertOptions.EmptyStringAsNull, true, pDefaultValue),
-                new OptionsPermutation(ConvertOptions.NullToValueDefault, true, pDefaultValue)
-            };
-        }
-
-
+       
         [Fact(DisplayName = "Convert.To:ImmediateReturnNullForNullReference")]
         public void ImmediateReturnNullForNullReference()
         {
             Type ltRefType = typeof(object);
-            foreach (var lPermation in GetOptionsPermutations(new object()))
+            foreach (var lPermation in OptionsPermutation.GetAll(new object()))
             {
                 Assert.Null(fnTo(null, ltRefType, lPermation.ConvertOptions, lPermation.IgnoreError, lPermation.DefaultValue));
             }
         }
 
-        [Fact(DisplayName = "Convert.To:ImmediateReturnTargetRefernceType")]
-        public void ImmediateReturnTargetRefernceType()
+        [Fact(DisplayName = "Convert.To:ImmediateReturnTargetReferenceType")]
+        public void ImmediateReturnTargetReferenceType()
         {
             string lSourceValue = "foo bar baz";
 
-            foreach (var lPermation in GetOptionsPermutations("a different string"))
+            foreach (var lPermation in OptionsPermutation.GetAll("a different string"))
             {
                 Assert.Same(lSourceValue, fnTo(lSourceValue, typeof(string), lPermation.ConvertOptions, lPermation.IgnoreError, lPermation.DefaultValue));
             }
@@ -89,7 +40,7 @@ namespace Ockham.Data.Tests
         {
             int lIntValue = 42;
 
-            foreach (var lPermation in GetOptionsPermutations(923))
+            foreach (var lPermation in OptionsPermutation.GetAll(923))
             {
                 Assert.Equal(lIntValue, fnTo(lIntValue, typeof(int), lPermation.ConvertOptions, lPermation.IgnoreError, lPermation.DefaultValue));
             }
@@ -100,7 +51,7 @@ namespace Ockham.Data.Tests
         {
             Type lNullableType = typeof(int?);
 
-            foreach (var lPermation in GetOptionsPermutations((int?)342))
+            foreach (var lPermation in OptionsPermutation.GetAll((int?)342))
             {
                 Assert.Null(fnTo(null, lNullableType, lPermation.ConvertOptions, lPermation.IgnoreError, lPermation.DefaultValue));
             }
@@ -111,7 +62,7 @@ namespace Ockham.Data.Tests
         {
             Type lNullableType = typeof(int?);
 
-            foreach (var lPermation in GetOptionsPermutations((int?)342))
+            foreach (var lPermation in OptionsPermutation.GetAll((int?)342))
             {
                 foreach (object lInput in ConvertTestData.Int49Inputs)
                 {
@@ -127,7 +78,7 @@ namespace Ockham.Data.Tests
         {
             Type lNullableType = typeof(TestShortEnum?);
 
-            foreach (var lPermation in GetOptionsPermutations((TestShortEnum?)TestShortEnum.One))
+            foreach (var lPermation in OptionsPermutation.GetAll((TestShortEnum?)TestShortEnum.One))
             {
                 foreach (object lInput in ConvertTestData.Int49Inputs)
                 {

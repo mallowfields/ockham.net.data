@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ockham.Data", "src\Ockham.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ockham.Data.Tests", "test\Ockham.Data.Tests.csproj", "{96086F1A-93FA-428F-A54E-0385A9D478F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ockham.Data.Reference", "ref\Ockham.Data.Reference.csproj", "{A7852022-7A59-447B-A5E7-EF0166391B10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ockham.Data.Reference", "ref\Ockham.Data.Reference.csproj", "{A7852022-7A59-447B-A5E7-EF0166391B10}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{B298CF39-DC57-4008-843A-59515F65855B}"
+	ProjectSection(SolutionItems) = preProject
+		test.ps1 = test.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

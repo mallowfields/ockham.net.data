@@ -239,7 +239,7 @@ namespace Ockham.Reflection
         /// <param name="type"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool IsInstanceOfType(Type type, object value)
+        internal static bool IsInstanceOfType(Type type, object value)
         {
             if (value == null) return false;
             Type valType = value.GetType();

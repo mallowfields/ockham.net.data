@@ -1,10 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp1.0;netcoreapp2.0;net45;net46</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;net46</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <RootNamespace>Ockham.Data.Tests</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="output\api\" />
+    <Folder Include="output\tests\" />
+    <Folder Include="output\results\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="output\api\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="output\api\*.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.DotNet.BuildTools.GenAPI" Version="1.0.0-beta-00081" />
@@ -12,18 +26,29 @@
     <PackageReference Include="Ockham.Test" Version="0.1.1-alpha" /> 
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'"> 
-    <PackageReference Include="xunit" Version="2.1.0" /> 
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.1.0" />
-    <DotNetCliToolReference Include="dotnet-xunit" Version="2.1.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' != 'net45'"> 
+  <ItemGroup>
     <PackageReference Include="xunit" Version="2.3.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.0" />
   </ItemGroup>
   
+  <!--<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp1.0'">
+    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+  </ItemGroup>-->
+
+  <!--<ItemGroup Condition="'$(TargetFramework)' == 'net45'"> 
+    <PackageReference Include="xunit" Version="2.1.0" /> 
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.1.0" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.1.0" />
+  </ItemGroup>-->
+
+
+  <!--<ItemGroup Condition="('$(TargetFramework)' == 'net46') Or ('$(TargetFramework)' == 'netcoreapp2.0')"> 
+    <PackageReference Include="xunit" Version="2.3.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.0" />
+  </ItemGroup>-->
+ 
   <PropertyGroup Condition="'$(TargetFramework)'!='netcoreapp1.0'">
     <DefineConstants>EXCLUDE_FROM_COVERAGE_ATTR</DefineConstants>
   </PropertyGroup>
@@ -32,4 +57,5 @@
     <ProjectReference Include="..\src\Ockham.Data.csproj" />
   </ItemGroup>
 
+ 
 </Project>

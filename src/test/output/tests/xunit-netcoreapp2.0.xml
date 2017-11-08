@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<assemblies timestamp="11/08/2017 16:10:55">
+  <assembly name="Ockham.Data.Tests.dll" environment="64-bit .NET Standard [collection-per-class, parallel (8 threads)]" test-framework="xUnit.net 2.3.0.3820" run-date="2017-11-08" run-time="16:10:54" total="21" passed="21" failed="0" skipped="0" time="0.165" errors="0">
+    <errors />
+    <collection total="10" passed="10" failed="0" skipped="0" name="Test collection for Ockham.Data.Tests.ConverterTests" time="0.038">
+      <test name="Converter.To:NullToValueTypeRaisesError" type="Ockham.Data.Tests.ConverterTests" method="NullToValueTypeRaisesError" time="0.0209043" result="Pass" />
+      <test name="Converter.To:NullToValueDefault" type="Ockham.Data.Tests.ConverterTests" method="NullToValueDefault" time="0.0046034" result="Pass" />
+      <test name="Converter.Force:NullToValueDefault" type="Ockham.Data.Tests.ConverterTests" method="Force_IgnoreError" time="0.0023488" result="Pass" />
+      <test name="Converter.To:Non-empty input for nullable returns underlying value (int)" type="Ockham.Data.Tests.ConverterTests" method="NonEmptyInputForNullableReturnsUnderlyingValue_Int" time="0.0014034" result="Pass" />
+      <test name="Converter.To:Empty input for nullable returns null" type="Ockham.Data.Tests.ConverterTests" method="EmptyInputForNullableReturnsNull" time="0.0007052" result="Pass" />
+      <test name="Converter.To:ImmediateReturnNullForNullReference" type="Ockham.Data.Tests.ConverterTests" method="ImmediateReturnNullForNullReference" time="0.0006746" result="Pass" />
+      <test name="Converter.To:ImmediateReturnTargetReferenceType" type="Ockham.Data.Tests.ConverterTests" method="ImmediateReturnTargetReferenceType" time="0.0007505" result="Pass" />
+      <test name="Converter.To:Non-empty input for nullable returns underlying value (enum)" type="Ockham.Data.Tests.ConverterTests" method="NonEmptyInputForNullableReturnsUnderlyingValue_Enum" time="0.0009786" result="Pass" />
+      <test name="Converter.To:HeedErrorsRaisesException" type="Ockham.Data.Tests.ConverterTests" method="Invalid_HeedErrorsRaisesException" time="0.0029077" result="Pass" />
+      <test name="Converter.To:ImmediateReturnTargetValueType" type="Ockham.Data.Tests.ConverterTests" method="ImmediateReturnTargetValueType" time="0.0029208" result="Pass" />
+    </collection>
+    <collection total="11" passed="11" failed="0" skipped="0" name="Test collection for Ockham.Data.Tests.ConvertCoreTests" time="0.043">
+      <test name="Convert.To:Non-empty input for nullable returns underlying value (enum)" type="Ockham.Data.Tests.ConvertCoreTests" method="NonEmptyInputForNullableReturnsUnderlyingValue_Enum" time="0.0203723" result="Pass" />
+      <test name="Convert.To:NullToValueDefault_IgnoreError" type="Ockham.Data.Tests.ConvertCoreTests" method="NullToValueDefault_IgnoreError" time="0.0017632" result="Pass" />
+      <test name="Convert.To:IgnoreErrorsReturnsDefuault" type="Ockham.Data.Tests.ConvertCoreTests" method="Invalid_IgnoreErrorsReturnsDefuault" time="0.0094451" result="Pass" />
+      <test name="Convert.To:NullToValueDefault" type="Ockham.Data.Tests.ConvertCoreTests" method="NullToValueDefault" time="0.0007928" result="Pass" />
+      <test name="Convert.To:ImmediateReturnTargetValueType" type="Ockham.Data.Tests.ConvertCoreTests" method="ImmediateReturnTargetValueType" time="0.0032105" result="Pass" />
+      <test name="Convert.To:NullToValueTypeRaisesError" type="Ockham.Data.Tests.ConvertCoreTests" method="NullToValueTypeRaisesError" time="0.001864" result="Pass" />
+      <test name="Convert.To:Empty input for nullable returns null" type="Ockham.Data.Tests.ConvertCoreTests" method="EmptyInputForNullableReturnsNull" time="0.0004492" result="Pass" />
+      <test name="Convert.To:HeedErrorsRaisesException" type="Ockham.Data.Tests.ConvertCoreTests" method="Invalid_HeedErrorsRaisesException" time="0.0024248" result="Pass" />
+      <test name="Convert.To:ImmediateReturnNullForNullReference" type="Ockham.Data.Tests.ConvertCoreTests" method="ImmediateReturnNullForNullReference" time="0.000405" result="Pass" />
+      <test name="Convert.To:ImmediateReturnTargetReferenceType" type="Ockham.Data.Tests.ConvertCoreTests" method="ImmediateReturnTargetReferenceType" time="0.0003877" result="Pass" />
+      <test name="Convert.To:Non-empty input for nullable returns underlying value (int)" type="Ockham.Data.Tests.ConvertCoreTests" method="NonEmptyInputForNullableReturnsUnderlyingValue_Int" time="0.0019074" result="Pass" />
+    </collection>
+  </assembly>
+</assemblies>
