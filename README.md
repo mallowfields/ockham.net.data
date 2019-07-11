@@ -1,5 +1,5 @@
 # Ockham.Data
-Basic data inspection and conversion utilities. Part of the [Ockham.Net](https://github.com/joshua-honig/ockham.net) project.
+Basic data inspection and conversion utilities. Part of the [Ockham.Net](https://github.com/mallowfields/ockham.net) project.
 
 ## The Problem
 > Every Ockham component should solve a clear problem that is not solved in the .Net BCL, or in the particular libraries it is meant to augment. 
